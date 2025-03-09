@@ -59,7 +59,6 @@ class CatDetailPage extends StatelessWidget {
                       if (cat.breeds[0].wikipediaUrl?.isEmpty ?? true) {
                         return;
                       }
-                      print('More Info: ${cat.breeds[0].wikipediaUrl}');
                       final url = Uri.parse(cat.breeds[0].wikipediaUrl!);
                       if (await canLaunchUrl(url)) {
                         await launchUrl(url);
