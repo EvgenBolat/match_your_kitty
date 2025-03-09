@@ -1,16 +1,20 @@
-# match_your_kitty
+# Match Your Kitty
 
-A new Flutter project.
+Найди себе того самого котика!
 
-## Getting Started
+Реализованные фичи:
 
-This project is a starting point for a Flutter application.
+1.	На главном экране отображается случайное изображение котика и название его породы
+2.	Изображение котика можно смахнуть влево или вправо
+3.	Есть две кнопки: лайк/дизлайк
+4.	Смахивание, свайп или нажатие на кнопку должно сменяет котика на нового
+5.	Если котика лайкнули (лайк или свайп вправо), то на экране должен увеличиваться счетчик
+6.	Если нажать на само изображение котика, то должен открываться новый экран с детальным описанием
+7.	На экране детального описания отображается то же изображение котика, плюс отображается вся информация про породу
 
-A few resources to get you started if this is your first Flutter project:
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+Ссылка для скачивания apk
+[тык]()
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+
+Изображение интерфейса
