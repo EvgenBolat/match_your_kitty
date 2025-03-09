@@ -3,7 +3,7 @@ import 'package:match_your_kitty/src/models/cat.dart';
 import 'package:match_your_kitty/src/screens/cat_details_screen.dart';
 import 'package:match_your_kitty/src/services/api_service.dart';
 import 'package:match_your_kitty/src/widgets/cat_card_list.dart';
-import 'package:match_your_kitty/src/widgets/react_button.dart';
+import 'package:match_your_kitty/src/widgets/react_buttons.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -64,7 +64,14 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Random Cat ($likeCount ❤️)')),
+      appBar: AppBar(
+        title: Text('❤️ Liked $likeCount cat'),
+        titleTextStyle: const TextStyle(
+          color: Colors.white,
+          fontWeight: FontWeight.bold,
+          fontSize: 24,
+        ),
+      ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

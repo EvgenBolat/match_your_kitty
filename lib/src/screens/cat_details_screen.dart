@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:match_your_kitty/src/models/cat.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class CatDetailPage extends StatelessWidget {
   static const routeName = '/catDetail';
@@ -11,7 +12,16 @@ class CatDetailPage extends StatelessWidget {
     final Cat cat = ModalRoute.of(context)?.settings.arguments as Cat;
 
     return Scaffold(
-      appBar: AppBar(title: Text('${cat.breeds[0].name} Details')),
+      appBar: AppBar(
+        title: Text(
+          '${cat.breeds[0].name} Details',
+          style: TextStyle(
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
+        ),
+      ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -45,7 +55,18 @@ class CatDetailPage extends StatelessWidget {
                   ),
                   SizedBox(height: 10),
                   GestureDetector(
-                    onTap: () {},
+                    onTap: () async {
+                      if (cat.breeds[0].wikipediaUrl?.isEmpty ?? true) {
+                        return;
+                      }
+                      print('More Info: ${cat.breeds[0].wikipediaUrl}');
+                      final url = Uri.parse(cat.breeds[0].wikipediaUrl!);
+                      if (await canLaunchUrl(url)) {
+                        await launchUrl(url);
+                      } else {
+                        return;
+                      }
+                    },
                     child: Text(
                       'More Info: ${cat.breeds[0].wikipediaUrl}',
                       style: TextStyle(

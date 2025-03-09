@@ -13,7 +13,14 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Match Your Kitty',
-      theme: ThemeData(primarySwatch: Colors.blue),
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+        scaffoldBackgroundColor: const Color(0xFFF4E1C1),
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Color(0xFFD2B48C),
+          elevation: 0,
+        ),
+      ),
       initialRoute: '/',
       routes: {
         '/': (context) => const HomeScreen(),

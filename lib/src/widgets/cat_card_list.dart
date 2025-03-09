@@ -18,28 +18,30 @@ class CatCardList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      alignment: Alignment.center,
-      children:
-          catList.asMap().entries.map((entry) {
-            final index = entry.key;
-            final cat = entry.value;
+    return SizedBox(
+      height: 400,
+      child: Stack(
+        alignment: Alignment.center,
+        children:
+            catList.asMap().entries.map((entry) {
+              final index = entry.key;
+              final cat = entry.value;
 
-            return GestureDetector(
-              onTap: () => onCardTapped(cat),
-              child: Positioned(
-                top: index * 10.0,
-                child: CatCard(
-                  imageUrl: cat.url,
-                  breedName:
-                      cat.breeds.isNotEmpty ? cat.breeds[0].name : 'Unknown',
-                  onNext: onNext,
-                  onLike: onLike,
-                  isInteractive: catList.length - 1 == index,
+              return Positioned(
+                child: GestureDetector(
+                  onTap: () => onCardTapped(cat),
+                  child: CatCard(
+                    imageUrl: cat.url,
+                    breedName:
+                        cat.breeds.isNotEmpty ? cat.breeds[0].name : 'Unknown',
+                    onNext: onNext,
+                    onLike: onLike,
+                    isInteractive: catList.length - 1 == index,
+                  ),
                 ),
-              ),
-            );
-          }).toList(),
+              );
+            }).toList(),
+      ),
     );
   }
 }
