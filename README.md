@@ -14,7 +14,17 @@
 
 
 Ссылка для скачивания apk
-[тык]()
+
+[тык](app-release.apk)
 
 
 Изображение интерфейса
+1. [](screenshots/photo_2025-03-09 22.34.00.jpeg)
+
+2. [](screenshots/photo_2025-03-09 22.33.54.jpeg)
+
+3. [](screenshots/photo_2025-03-09 22.33.55.jpeg)
+
+4. [](screenshots/photo_2025-03-09 22.33.56.jpeg)
+
+5. [](screenshots/photo_2025-03-09 22.33.57.jpeg)
