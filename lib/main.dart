@@ -1,9 +1,37 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:match_your_kitty/src/screens/cat_details_screen.dart';
-import 'package:match_your_kitty/src/screens/home_screen.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
+import 'package:match_your_kitty/data/services/cat_api_client.dart';
+import 'package:match_your_kitty/domain/cat.dart';
+import 'package:match_your_kitty/presentation/block/cat_bloc.dart';
+import 'package:match_your_kitty/presentation/block/cat_event.dart';
+import 'package:match_your_kitty/presentation/screens/cat_details_screen.dart';
+import 'package:match_your_kitty/presentation/screens/home_screen.dart';
+
+import 'domain/cat_repository.dart';
+
+final getIt = GetIt.instance;
+
+void setupDI() {
+  final dio = Dio(
+    BaseOptions(
+      baseUrl: 'https://api.thecatapi.com/v1',
+      headers: {
+        'x-api-key':
+            'live_rs2cYwd6t2U172ZVENYGbtNNF4GcNn5CI17YBNd7cG1L0lqlSmFQUwp3bsmZdMtI',
+      },
+    ),
+  );
+  getIt.registerSingleton<Dio>(dio);
+  getIt.registerSingleton<CatApiClient>(CatApiClient(getIt<Dio>()));
+  getIt.registerSingleton<CatRepository>(CatRepository(getIt<CatApiClient>()));
+  getIt.registerFactory<CatBloc>(() => CatBloc(getIt<CatRepository>()));
+}
 
 void main() {
-  runApp(const MyApp());
+  setupDI();
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -22,9 +50,22 @@ class MyApp extends StatelessWidget {
         ),
       ),
       initialRoute: '/',
-      routes: {
-        '/': (context) => const HomeScreen(),
-        CatDetailPage.routeName: (context) => const CatDetailPage(),
+      onGenerateRoute: (settings) {
+        if (settings.name == '/') {
+          return MaterialPageRoute(
+            builder:
+                (context) => BlocProvider(
+                  create: (_) => getIt<CatBloc>()..add(LoadCat()),
+                  child: const HomeScreen(),
+                ),
+          );
+        } else if (settings.name == CatDetailsScreen.routeName) {
+          final cat = settings.arguments as Cat;
+          return MaterialPageRoute(
+            builder: (context) => CatDetailsScreen(cat: cat),
+          );
+        }
+        return null;
       },
     );
   }
