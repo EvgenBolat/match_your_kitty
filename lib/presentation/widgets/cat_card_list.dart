@@ -5,7 +5,7 @@ import 'package:match_your_kitty/presentation/widgets/cat_card.dart';
 class CatCardList extends StatelessWidget {
   final List<Cat> catList;
   final VoidCallback onNext;
-  final VoidCallback onLike;
+  final Function(Cat) onLike;
   final void Function(Cat) onCardTapped;
 
   const CatCardList({
@@ -35,7 +35,7 @@ class CatCardList extends StatelessWidget {
                     breedName:
                         cat.breeds.isNotEmpty ? cat.breeds[0].name : 'Unknown',
                     onNext: onNext,
-                    onLike: onLike,
+                    onLike: () => onLike(cat),
                     isInteractive: catList.length - 1 == index,
                   ),
                 ),

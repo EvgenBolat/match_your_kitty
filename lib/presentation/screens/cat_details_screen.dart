@@ -12,7 +12,6 @@ class CatDetailsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final breed = cat.breeds.isNotEmpty ? cat.breeds.first : null;
-    print('wiki ${breed?.wikipediaUrl}');
     return Scaffold(
       appBar: AppBar(title: const Text('Cat Details')),
       body: SingleChildScrollView(
