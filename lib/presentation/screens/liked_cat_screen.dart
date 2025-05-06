@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:match_your_kitty/presentation/bloc/liked_cat/liked_cat_bloc.dart';
-import 'package:match_your_kitty/presentation/bloc/liked_cat/liked_cat_event.dart';
-import 'package:match_your_kitty/presentation/bloc/liked_cat/liked_cat_state.dart';
+import 'package:intl/intl.dart';
+import 'package:match_your_kitty/application/liked_cat/liked_cat_bloc.dart';
+import 'package:match_your_kitty/application/liked_cat/liked_cat_event.dart';
+import 'package:match_your_kitty/application/liked_cat/liked_cat_state.dart';
 
 class LikedCatsScreen extends StatelessWidget {
   static const routeName = '/liked-cats';
@@ -70,7 +71,9 @@ class LikedCatsScreen extends StatelessWidget {
                           },
                         ),
                         title: Text(cat.breedName),
-                        subtitle: Text('Liked at: ${cat.likedAt}'),
+                        subtitle: Text(
+                          'Liked at: ${DateFormat('dd.MM.yyyy HH:mm').format(cat.likedAt)}',
+                        ),
                         trailing: IconButton(
                           icon: Icon(Icons.delete),
                           onPressed:

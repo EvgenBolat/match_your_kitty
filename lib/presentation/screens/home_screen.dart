@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:match_your_kitty/data/models/liked_cat.dart';
-import 'package:match_your_kitty/presentation/bloc/cat/cat_bloc.dart';
-import 'package:match_your_kitty/presentation/bloc/cat/cat_event.dart';
-import 'package:match_your_kitty/presentation/bloc/cat/cat_state.dart';
-import 'package:match_your_kitty/presentation/bloc/liked_cat/liked_cat_bloc.dart';
-import 'package:match_your_kitty/presentation/bloc/liked_cat/liked_cat_event.dart';
-import 'package:match_your_kitty/presentation/bloc/liked_cat/liked_cat_state.dart';
+import 'package:match_your_kitty/application/cat/cat_bloc.dart';
+import 'package:match_your_kitty/application/cat/cat_event.dart';
+import 'package:match_your_kitty/application/cat/cat_state.dart';
+import 'package:match_your_kitty/application/liked_cat/liked_cat_bloc.dart';
+import 'package:match_your_kitty/application/liked_cat/liked_cat_event.dart';
+import 'package:match_your_kitty/application/liked_cat/liked_cat_state.dart';
 import 'package:match_your_kitty/presentation/screens/liked_cat_screen.dart';
 
 import '../widgets/cat_card_list.dart';
