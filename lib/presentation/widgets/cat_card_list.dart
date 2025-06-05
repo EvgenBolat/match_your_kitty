@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:match_your_kitty/domain/cat.dart';
+import 'package:match_your_kitty/domain/models/cat.dart';
 import 'package:match_your_kitty/presentation/widgets/cat_card.dart';
 
 class CatCardList extends StatelessWidget {

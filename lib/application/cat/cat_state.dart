@@ -1,4 +1,4 @@
-import 'package:match_your_kitty/domain/cat.dart';
+import 'package:match_your_kitty/domain/models/cat.dart';
 
 abstract class CatState {}
 

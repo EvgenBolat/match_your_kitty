@@ -2,10 +2,10 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:match_your_kitty/domain/cat.dart';
-import 'package:match_your_kitty/domain/cat_repository.dart';
 import 'package:match_your_kitty/application/cat/cat_event.dart';
 import 'package:match_your_kitty/application/cat/cat_state.dart';
+import 'package:match_your_kitty/domain/models/cat.dart';
+import 'package:match_your_kitty/domain/repositories/cat_repository.dart';
 
 class CatBloc extends Bloc<CatEvent, CatState> {
   final CatRepository repository;

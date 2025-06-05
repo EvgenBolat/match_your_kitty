@@ -1,23 +1,35 @@
+import 'package:equatable/equatable.dart';
 import 'package:match_your_kitty/data/models/liked_cat.dart';
 
-class LikedCatsState {
+class LikedCatsState extends Equatable {
   final List<LikedCat> likedCats;
-  final String? selectedBreedFilter;
   final bool isLoading;
   final String? errorMessage;
+  final String? selectedBreedFilter;
 
-  LikedCatsState({
+  const LikedCatsState({
     required this.likedCats,
-    this.selectedBreedFilter,
     this.isLoading = false,
     this.errorMessage,
+    this.selectedBreedFilter,
   });
 
+  LikedCatsState copyWith({
+    List<LikedCat>? likedCats,
+    bool? isLoading,
+    String? errorMessage,
+    String? selectedBreedFilter,
+  }) {
+    return LikedCatsState(
+      likedCats: likedCats ?? this.likedCats,
+      isLoading: isLoading ?? this.isLoading,
+      errorMessage: errorMessage,
+      selectedBreedFilter: selectedBreedFilter ?? this.selectedBreedFilter,
+    );
+  }
+
   List<LikedCat> get filteredCats {
-    if (selectedBreedFilter == null || selectedBreedFilter!.isEmpty) {
-      return likedCats;
-    }
-    if (selectedBreedFilter == 'all') {
+    if (selectedBreedFilter == null || selectedBreedFilter == 'all') {
       return likedCats;
     }
     return likedCats
@@ -25,15 +37,11 @@ class LikedCatsState {
         .toList();
   }
 
-  LikedCatsState copyWith({
-    List<LikedCat>? likedCats,
-    String? selectedBreedFilter,
-    bool? isLoading,
-    String? errorMessage,
-  }) => LikedCatsState(
-    likedCats: likedCats ?? this.likedCats,
-    selectedBreedFilter: selectedBreedFilter ?? this.selectedBreedFilter,
-    isLoading: isLoading ?? this.isLoading,
-    errorMessage: errorMessage,
-  );
+  @override
+  List<Object?> get props => [
+    likedCats,
+    isLoading,
+    errorMessage,
+    selectedBreedFilter,
+  ];
 }

@@ -1,5 +1,6 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:match_your_kitty/domain/cat.dart';
+import 'package:match_your_kitty/domain/models/cat.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class CatDetailsScreen extends StatelessWidget {
@@ -19,16 +20,14 @@ class CatDetailsScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Image.network(
-              cat.url,
+            CachedNetworkImage(
+              imageUrl: cat.url,
               height: 250,
               fit: BoxFit.cover,
-              loadingBuilder: (context, child, loadingProgress) {
-                if (loadingProgress == null) return child;
-                return const Center(child: CircularProgressIndicator());
-              },
-              errorBuilder:
-                  (context, error, stackTrace) => const Icon(Icons.error),
+              placeholder:
+                  (context, url) =>
+                      const Center(child: CircularProgressIndicator()),
+              errorWidget: (context, url, error) => const Icon(Icons.error),
             ),
             const SizedBox(height: 24),
             Text(

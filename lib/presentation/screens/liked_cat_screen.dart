@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
@@ -48,27 +49,21 @@ class LikedCatsScreen extends StatelessWidget {
                     final cat = state.filteredCats[index];
                     return Card(
                       child: ListTile(
-                        leading: Image.network(
-                          cat.imageUrl,
+                        leading: CachedNetworkImage(
+                          imageUrl: cat.imageUrl,
                           width: 80,
                           height: 80,
                           fit: BoxFit.cover,
-                          loadingBuilder: (context, child, progress) {
-                            if (progress == null) return child;
-                            return SizedBox(
-                              width: 80,
-                              height: 80,
-                              child: Center(child: CircularProgressIndicator()),
-                            );
-                          },
-                          errorBuilder: (context, error, stackTrace) {
-                            WidgetsBinding.instance.addPostFrameCallback((_) {
-                              context.read<LikedCatBloc>().add(
-                                SetError('Failed to load image'),
-                              );
-                            });
-                            return Icon(Icons.error);
-                          },
+                          placeholder:
+                              (context, url) => const SizedBox(
+                                width: 80,
+                                height: 80,
+                                child: Center(
+                                  child: CircularProgressIndicator(),
+                                ),
+                              ),
+                          errorWidget:
+                              (context, url, error) => const Icon(Icons.error),
                         ),
                         title: Text(cat.breedName),
                         subtitle: Text(

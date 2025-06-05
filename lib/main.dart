@@ -1,17 +1,23 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
-import 'package:match_your_kitty/data/services/cat_api_client.dart';
-import 'package:match_your_kitty/domain/cat.dart';
 import 'package:match_your_kitty/application/cat/cat_bloc.dart';
 import 'package:match_your_kitty/application/cat/cat_event.dart';
 import 'package:match_your_kitty/application/liked_cat/liked_cat_bloc.dart';
+import 'package:match_your_kitty/application/liked_cat/liked_cat_event.dart';
+import 'package:match_your_kitty/application/network/network_cubit.dart';
+import 'package:match_your_kitty/data/database/app_database.dart';
+import 'package:match_your_kitty/data/services/cat_api_client.dart';
+import 'package:match_your_kitty/domain/models/cat.dart';
+import 'package:match_your_kitty/domain/repositories/liked_cat_repository.dart';
+import 'package:match_your_kitty/domain/repositories/liked_cat_repository_impl.dart';
 import 'package:match_your_kitty/presentation/screens/cat_details_screen.dart';
 import 'package:match_your_kitty/presentation/screens/home_screen.dart';
 import 'package:match_your_kitty/presentation/screens/liked_cat_screen.dart';
 
-import 'domain/cat_repository.dart';
+import 'domain/repositories/cat_repository.dart';
 
 final getIt = GetIt.instance;
 
@@ -26,13 +32,21 @@ void setupDI() {
     ),
   );
   getIt.registerSingleton<Dio>(dio);
+  getIt.registerSingleton<NetworkCubit>(NetworkCubit(Connectivity()));
   getIt.registerSingleton<CatApiClient>(CatApiClient(getIt<Dio>()));
   getIt.registerSingleton<CatRepository>(CatRepository(getIt<CatApiClient>()));
   getIt.registerFactory<CatBloc>(() => CatBloc(getIt<CatRepository>()));
-  getIt.registerFactory<LikedCatBloc>(() => LikedCatBloc());
+  getIt.registerFactory<LikedCatBloc>(
+    () => LikedCatBloc(getIt<ILikedCatsRepository>()),
+  );
+  getIt.registerSingleton<AppDatabase>(AppDatabase());
+  getIt.registerSingleton<ILikedCatsRepository>(
+    LikedCatsRepositoryImpl(getIt<AppDatabase>()),
+  );
 }
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   setupDI();
   runApp(MyApp());
 }
@@ -45,7 +59,10 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (_) => getIt<CatBloc>()..add(LoadCat())),
-        BlocProvider(create: (_) => getIt<LikedCatBloc>()),
+        BlocProvider(
+          create: (_) => getIt<LikedCatBloc>()..add(LoadLikedCats()),
+        ),
+        BlocProvider(create: (_) => getIt<NetworkCubit>()),
       ],
       child: MaterialApp(
         title: 'Match Your Kitty',
@@ -57,6 +74,23 @@ class MyApp extends StatelessWidget {
             elevation: 0,
           ),
         ),
+        builder: (context, child) {
+          return BlocListener<NetworkCubit, NetworkStatus>(
+            listener: (context, state) {
+              final messenger = ScaffoldMessenger.of(context);
+              if (state == NetworkStatus.offline) {
+                messenger.showSnackBar(
+                  const SnackBar(content: Text('Нет подключения к интернету')),
+                );
+              } else {
+                messenger.showSnackBar(
+                  const SnackBar(content: Text('Подключение восстановлено')),
+                );
+              }
+            },
+            child: child!,
+          );
+        },
         initialRoute: '/',
         onGenerateRoute: (settings) {
           if (settings.name == '/') {
